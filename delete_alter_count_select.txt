@@ -1,0 +1,1570 @@
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.5.5-10.1.26-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| students           |
++--------------------+
+5 rows in set (0.12 sec)
+
+mysql> CREATE DATABASE student;
+Query OK, 1 row affected (0.06 sec)
+
+mysql> SHOW DATABASE
+    -> S;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'DATABASE
+S' at line 1
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| students           |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> DROP DATABASE student;
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| students           |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> CREATE DATABASE student;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| students           |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> USE student;
+Database changed
+mysql> SELECT DATABASE();
++------------+
+| DATABASE() |
++------------+
+| student    |
++------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE studentAA(
+    -> first_name VARCHAR(30) NOT NULL,
+    -> last_name VARCHAR(30) NOT NULL,
+    -> email VARCHAR(60) NULL,
+    -> street VARCHAR(40) NOT NULL,
+    -> city VARCHAR(40) NOT NULL,
+    -> state CHAR(7) NOT NULL DEFAULT "ESP",
+    -> zip MEDIUMINT UNSIGNED NOT NULL,
+    -> phone VARCHAR(30) NULL,
+    -> student_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT);
+Query OK, 0 rows affected (0.44 sec)
+
+mysql> INSERT INTO studentAA VALUE
+    -> ('','','','','','','','',''),
+    -> ('','','','','','','','',''),
+    -> ^C
+mysql> INSERT INTO studentAA VALUE
+    -> ('std1','sr1','std1@school.com','vantie 2','Helsinki','Uusi','1002','13256','4050'),
+    -> ('std2','sr2','std2@school.com','rantie 2','Helsinki','Uusi','102','3456','4050'),
+    -> ('std3','sr3','std3@school.com','aantie 2','Espoo','Uusi','202','6456','4052'),
+    -> ('std4','sr4','std4@school.com','mantie 2','Vaanta','Uusi','4202','26456','4057');
+ERROR 1062 (23000): Duplicate entry '4050' for key 'PRIMARY'
+mysql> INSERT INTO studentAA VALUE
+    -> ('std1','sr1','std1@school.com','vantie 2','Helsinki','Uusi','1002','13256','4050'),
+    -> ('std3','sr3','std3@school.com','aantie 2','Espoo','Uusi','202','6456','4052'),
+    -> ('std4','sr4','std4@school.com','mantie 2','Vaanta','Uusi','4202','26456','4057');
+Query OK, 3 rows affected (0.07 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO studentAA VALUE
+    -> ('std5','sr5','std5@school.com','tantie 2','Kupio','Savo','1602','43256','4071'),
+    -> ('std6','sr6','std6@school.com','oantie 2','kukko','Savo','7602','83256','4072'),
+    -> ('std7','sr7','std7@school.com','OOOantie 2','NY','PA','997602','993256','4073'),
+    -> ('std8','sr8','std8@school.com','Wantie 2','Texas','Arizona','9597602','55993256','4074');
+Query OK, 4 rows affected (0.12 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM studentAA;
++------------+-----------+-----------------+------------+----------+---------+---------+----------+------------+
+| first_name | last_name | email           | street     | city     | state   | zip     | phone    | student_id |
++------------+-----------+-----------------+------------+----------+---------+---------+----------+------------+
+| std1       | sr1       | std1@school.com | vantie 2   | Helsinki | Uusi    |    1002 | 13256    |       4050 |
+| std3       | sr3       | std3@school.com | aantie 2   | Espoo    | Uusi    |     202 | 6456     |       4052 |
+| std4       | sr4       | std4@school.com | mantie 2   | Vaanta   | Uusi    |    4202 | 26456    |       4057 |
+| std5       | sr5       | std5@school.com | tantie 2   | Kupio    | Savo    |    1602 | 43256    |       4071 |
+| std6       | sr6       | std6@school.com | oantie 2   | kukko    | Savo    |    7602 | 83256    |       4072 |
+| std7       | sr7       | std7@school.com | OOOantie 2 | NY       | PA      |  997602 | 993256   |       4073 |
+| std8       | sr8       | std8@school.com | Wantie 2   | Texas    | Arizona | 9597602 | 55993256 |       4074 |
++------------+-----------+-----------------+------------+----------+---------+---------+----------+------------+
+7 rows in set (0.00 sec)
+
+mysql> INSERT INTO studentAA VALUE
+    -> ('std8','sr8','std8@school.com','Wantie 2','Texas','Boston',69597602','44993256','4075');
+    '>
+    '> ('std8','sr8','std8@school.com','Wantie 2','Texas','Boston',69597602','44993256',^C075');
+mysql> INSERT INTO studentAA VALUE
+    -> ('std9','sr9','std9@school.com','carWantie 6','Washinton','M-Virginia','93895832','7993256','4077'),
+    ->  ('std99','sr99','std99@school.com','vcarWantie 7','MarryLand','M-Virginia','73895832','8993256','4078');
+Query OK, 2 rows affected, 4 warnings (0.10 sec)
+Records: 2  Duplicates: 0  Warnings: 4
+
+mysql> CREATE TABLE score;
+ERROR 1113 (42000): A table must have at least 1 column
+mysql> CREATE TABLE score(
+    -> student_id INT UNSIGNED NOT NULL,
+    -> event_id INT UNSIGNED NOT NULL,
+    -> score INT UNSIGNED NOT NULL,
+    -> PRIMARY(student_id, event_id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(student_id, event_id))' at line 5
+mysql> CREATE TABLE score(
+    -> student_id INT UNSIGNED NOT NULL,
+    -> event_id INT UNSIGNED NOT NULL,
+    -> score INT NOT NULL,
+    -> PRIMARY KEY(event_iid,student_id));
+ERROR 1072 (42000): Key column 'event_iid' doesn't exist in table
+mysql> CREATE TABLE score(
+    -> student_id INT UNSIGNED NOT NULL,
+    -> event_id INT UNSIGNED NOT NULL,
+    -> score INT NOT NULL,
+    -> PRIMARY KEY(event_id,student_id));
+Query OK, 0 rows affected (0.33 sec)
+
+mysql> INSERT INTO score VALUE
+    -> ^C
+mysql> SELECT * FROM studentAA;
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+
+| first_name | last_name | email            | street       | city      | state   | zip      | phone    | student_id |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+
+| std1       | sr1       | std1@school.com  | vantie 2     | Helsinki  | Uusi    |     1002 | 13256    |       4050 |
+| std3       | sr3       | std3@school.com  | aantie 2     | Espoo     | Uusi    |      202 | 6456     |       4052 |
+| std4       | sr4       | std4@school.com  | mantie 2     | Vaanta    | Uusi    |     4202 | 26456    |       4057 |
+| std5       | sr5       | std5@school.com  | tantie 2     | Kupio     | Savo    |     1602 | 43256    |       4071 |
+| std6       | sr6       | std6@school.com  | oantie 2     | kukko     | Savo    |     7602 | 83256    |       4072 |
+| std7       | sr7       | std7@school.com  | OOOantie 2   | NY        | PA      |   997602 | 993256   |       4073 |
+| std8       | sr8       | std8@school.com  | Wantie 2     | Texas     | Arizona |  9597602 | 55993256 |       4074 |
+| std9       | sr9       | std9@school.com  | carWantie 6  | Washinton | M-Virgi | 16777215 | 7993256  |       4077 |
+| std99      | sr99      | std99@school.com | vcarWantie 7 | MarryLand | M-Virgi | 16777215 | 8993256  |       4078 |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+
+9 rows in set (0.00 sec)
+
+mysql> INSERT INTO score VALUE
+    -> (4050,40501,80);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO score VALUE
+    -> (4052,40521,90),
+    -> (4057,40571,85),
+    -> (4071,40711,95),
+    -> (4072,40722,97),
+    -> (4073,40773,97),
+    -> (4074,40744,94),
+    -> (4077,40777,100),
+    -> (4078,40778,90);
+Query OK, 8 rows affected (0.13 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> SELECT student_id FROM score;
++------------+
+| student_id |
++------------+
+|       4050 |
+|       4052 |
+|       4057 |
+|       4071 |
+|       4072 |
+|       4074 |
+|       4073 |
+|       4077 |
+|       4078 |
++------------+
+9 rows in set (0.07 sec)
+
+mysql> SELECT COUNT(*) student_id;
++------------+
+| student_id |
++------------+
+|          1 |
++------------+
+1 row in set (0.07 sec)
+
+mysql> SELECT COUNT(*) studnet_id WHERE score=95;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE score=95' at line 1
+mysql> SELECT COUNT(*) studnet_id WHERE score='95';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE score='95'' at line 1
+mysql> SELECT * FROM score;
++------------+----------+-------+
+| student_id | event_id | score |
++------------+----------+-------+
+|       4050 |    40501 |    80 |
+|       4052 |    40521 |    90 |
+|       4057 |    40571 |    85 |
+|       4071 |    40711 |    95 |
+|       4072 |    40722 |    97 |
+|       4074 |    40744 |    94 |
+|       4073 |    40773 |    97 |
+|       4077 |    40777 |   100 |
+|       4078 |    40778 |    90 |
++------------+----------+-------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*) studnet_id WHERE score>=80;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE score>=80' at line 1
+mysql> ALTER studentAA
+    -> ADD date_entered NOW() AFTER phone;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'studentAA
+ADD date_entered NOW() AFTER phone' at line 1
+mysql> ALTER studentAA
+    -> ADD date_entered NOW() NOT NULL AFTER phone;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'studentAA
+ADD date_entered NOW() NOT NULL AFTER phone' at line 1
+mysql> ALTER studentAA
+    -> ADD AFTER phone date_entered NOW();
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'studentAA
+ADD AFTER phone date_entered NOW()' at line 1
+mysql> ALTER TABLE studentAA
+    -> ADD date_entered NOW() AFTER phone;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'NOW() AFTER phone' at line 2
+mysql> DESCRIBE studentAA;
++------------+-----------------------+------+-----+---------+----------------+
+| Field      | Type                  | Null | Key | Default | Extra          |
++------------+-----------------------+------+-----+---------+----------------+
+| first_name | varchar(30)           | NO   |     | NULL    |                |
+| last_name  | varchar(30)           | NO   |     | NULL    |                |
+| email      | varchar(60)           | YES  |     | NULL    |                |
+| street     | varchar(40)           | NO   |     | NULL    |                |
+| city       | varchar(40)           | NO   |     | NULL    |                |
+| state      | char(7)               | NO   |     | ESP     |                |
+| zip        | mediumint(8) unsigned | NO   |     | NULL    |                |
+| phone      | varchar(30)           | YES  |     | NULL    |                |
+| student_id | int(10) unsigned      | NO   | PRI | NULL    | auto_increment |
++------------+-----------------------+------+-----+---------+----------------+
+9 rows in set (0.10 sec)
+
+mysql> ALTER TABLE studentAA
+    -> ADD date_entered DATE AFTER phone;
+Query OK, 0 rows affected (0.66 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE studentAA
+    -> ADD sex ENUM('M','F') AFTER date_entered;
+Query OK, 0 rows affected (0.40 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT score FROM score WHERE socre>=80;
+ERROR 1054 (42S22): Unknown column 'socre' in 'where clause'
+mysql> SELECT score FROM score WHERE score>=80;
++-------+
+| score |
++-------+
+|    80 |
+|    90 |
+|    85 |
+|    95 |
+|    97 |
+|    94 |
+|    97 |
+|   100 |
+|    90 |
++-------+
+9 rows in set (0.02 sec)
+
+mysql> SELECT score FROM score WHERE score>80;
++-------+
+| score |
++-------+
+|    90 |
+|    85 |
+|    95 |
+|    97 |
+|    94 |
+|    97 |
+|   100 |
+|    90 |
++-------+
+8 rows in set (0.00 sec)
+
+mysql> UPDATE score
+    -> SET score=99
+    -> WHERE score=80;
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SHOW * FROM score;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '* FROM score' at line 1
+mysql> SELECT * FROM score;
++------------+----------+-------+
+| student_id | event_id | score |
++------------+----------+-------+
+|       4050 |    40501 |    99 |
+|       4052 |    40521 |    90 |
+|       4057 |    40571 |    85 |
+|       4071 |    40711 |    95 |
+|       4072 |    40722 |    97 |
+|       4074 |    40744 |    94 |
+|       4073 |    40773 |    97 |
+|       4077 |    40777 |   100 |
+|       4078 |    40778 |    90 |
++------------+----------+-------+
+9 rows in set (0.02 sec)
+
+mysql> SELECT MAX(score) FROM score;
++------------+
+| MAX(score) |
++------------+
+|        100 |
++------------+
+1 row in set (0.07 sec)
+
+mysql> SELECT COUNT(*) score<100;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '<100' at line 1
+mysql> SELECT COUNT(*) score<100 FROM score;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '<100 FROM score' at line 1
+mysql> SELECT COUNT(*) FROM score score<100;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '<100' at line 1
+mysql> SELECT COUNT(*) FROM score WHERE score<100;
++----------+
+| COUNT(*) |
++----------+
+|        8 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MAX(score),MIN(score) FROM score;
++------------+------------+
+| MAX(score) | MIN(score) |
++------------+------------+
+|        100 |         85 |
++------------+------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MAX(score),MIN(score) FROM score GROUP BY score as 'MaxMinScore';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'as 'MaxMinScore'' at line 1
+mysql> SELECT MAX(score),MIN(score) FROM score as 'MaxMinScore';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''MaxMinScore'' at line 1
+mysql> SELECT MAX(score),MIN(score) FROM score GROUP BY score;
++------------+------------+
+| MAX(score) | MIN(score) |
++------------+------------+
+|         85 |         85 |
+|         90 |         90 |
+|         94 |         94 |
+|         95 |         95 |
+|         97 |         97 |
+|         99 |         99 |
+|        100 |        100 |
++------------+------------+
+7 rows in set (0.08 sec)
+
+mysql> SELECT MAX(score),MIN(score) FROM score ORDER BY MAX(score) ASC;
++------------+------------+
+| MAX(score) | MIN(score) |
++------------+------------+
+|        100 |         85 |
++------------+------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT last_name,first_name,state FROM studentAA ORDER BY state ASC;
++-----------+------------+---------+
+| last_name | first_name | state   |
++-----------+------------+---------+
+| sr8       | std8       | Arizona |
+| sr9       | std9       | M-Virgi |
+| sr99      | std99      | M-Virgi |
+| sr7       | std7       | PA      |
+| sr5       | std5       | Savo    |
+| sr6       | std6       | Savo    |
+| sr1       | std1       | Uusi    |
+| sr3       | std3       | Uusi    |
+| sr4       | std4       | Uusi    |
++-----------+------------+---------+
+9 rows in set (0.06 sec)
+
+mysql> SELECT (last_name," ",first_name), state FROM studentAA GROUP BY last_name;
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> SELECT CONCAT(last_name, " ",first_name) FROM studentAA ORDER BY last_name ASC;
++-----------------------------------+
+| CONCAT(last_name, " ",first_name) |
++-----------------------------------+
+| sr1 std1                          |
+| sr3 std3                          |
+| sr4 std4                          |
+| sr5 std5                          |
+| sr6 std6                          |
+| sr7 std7                          |
+| sr8 std8                          |
+| sr9 std9                          |
+| sr99 std99                        |
++-----------------------------------+
+9 rows in set (0.10 sec)
+
+mysql> SELECT CONCAT(last_name, " ",first_name), state FROM studentAA GROUP BY last_name as 'Name' ORDER BY last_name ASC;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'as 'Name' ORDER BY last_name ASC' at line 1
+mysql> SELECT CONCAT(last_name, " ",first_name) as 'Name', state FROM studentAA GROUP BY last_name;
++------------+---------+
+| Name       | state   |
++------------+---------+
+| sr1 std1   | Uusi    |
+| sr3 std3   | Uusi    |
+| sr4 std4   | Uusi    |
+| sr5 std5   | Savo    |
+| sr6 std6   | Savo    |
+| sr7 std7   | PA      |
+| sr8 std8   | Arizona |
+| sr9 std9   | M-Virgi |
+| sr99 std99 | M-Virgi |
++------------+---------+
+9 rows in set (0.05 sec)
+
+mysql> SELECT CONCAT(last_name," ",first_name) as 'Name',state FROM studentAA GROUP BY last_name ORDER BY last_name ASC LIMIT 1,6;
++----------+---------+
+| Name     | state   |
++----------+---------+
+| sr3 std3 | Uusi    |
+| sr4 std4 | Uusi    |
+| sr5 std5 | Savo    |
+| sr6 std6 | Savo    |
+| sr7 std7 | PA      |
+| sr8 std8 | Arizona |
++----------+---------+
+6 rows in set (0.02 sec)
+
+mysql> SELECT CONCAT(last_name, " ", first_name) as 'Name' FROM studentAA && student_id, score FROM score GROUP BY last_name;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '&& student_id, score FROM score GROUP BY last_name' at line 1
+mysql> SELECT last_name,first_name FROM studentAA last_name LIKE '3' OR last_name LIKE '7';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'LIKE '3' OR last_name LIKE '7'' at line 1
+mysql> SELECT last_name,first_name FROM studentAA last_name LIKE '%3' OR last_name LIKE '%7';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'LIKE '%3' OR last_name LIKE '%7'' at line 1
+mysql> SELECT last_name,first_name FROM studentAA WHERE last_name LIKE '%3' OR last_name LIKE '%7';
++-----------+------------+
+| last_name | first_name |
++-----------+------------+
+| sr3       | std3       |
+| sr7       | std7       |
++-----------+------------+
+2 rows in set (0.09 sec)
+
+mysql> SELECT last_name, first_name FROM studentAA WHERE last_name LIKE '--3' OR last_name LIKE '--7';
+Empty set (0.00 sec)
+
+mysql> SELECT last_name, first_name FROM studentAA WHERE last_name LIKE "--'3'" OR last_name LIKE "--'7'";
+Empty set (0.00 sec)
+
+mysql> SELECT last_name, first_name FROM studentAA WHERE last_name LIKE "--'\3'" OR last_name LIKE "--'\7'";
+Empty set (0.00 sec)
+
+mysql> SELECT last_name, first_name FROM studentAA WHERE last_name LIKE "--'\3'" OR last_name LIKE "--'\7'";
+Empty set (0.00 sec)
+
+mysql> SELECT DISTNICT state FROM studentAA ORDER BY state ASC;
+ERROR 1054 (42S22): Unknown column 'DISTNICT' in 'field list'
+mysql> SELECT DISTINCT state FROM studentAA ORDER BY state ASC;
++---------+
+| state   |
++---------+
+| Arizona |
+| M-Virgi |
+| PA      |
+| Savo    |
+| Uusi    |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT state FROM studentAA ORDER BY DESC;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'DESC' at line 1
+mysql> SELECT DISTINCT state FROM studentAA ORDER BY state DESC;
++---------+
+| state   |
++---------+
+| Uusi    |
+| Savo    |
+| PA      |
+| M-Virgi |
+| Arizona |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(DISTINCT state) FROM studentAA;
++-----------------------+
+| COUNT(DISTINCT state) |
++-----------------------+
+|                     5 |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT COUNT(DISTINICT student_id) FROM studentAA;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'student_id) FROM studentAA' at line 1
+mysql> SELECT COUNT(DISTINCT student_id) FROM studentAA;
++----------------------------+
+| COUNT(DISTINCT student_id) |
++----------------------------+
+|                          9 |
++----------------------------+
+1 row in set (0.06 sec)
+
+mysql> SELECT COUNT(*) FROM studentAA;
++----------+
+| COUNT(*) |
++----------+
+|        9 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> DESCRIBE studentAA;
++--------------+-----------------------+------+-----+---------+----------------+
+| Field        | Type                  | Null | Key | Default | Extra          |
++--------------+-----------------------+------+-----+---------+----------------+
+| first_name   | varchar(30)           | NO   |     | NULL    |                |
+| last_name    | varchar(30)           | NO   |     | NULL    |                |
+| email        | varchar(60)           | YES  |     | NULL    |                |
+| street       | varchar(40)           | NO   |     | NULL    |                |
+| city         | varchar(40)           | NO   |     | NULL    |                |
+| state        | char(7)               | NO   |     | ESP     |                |
+| zip          | mediumint(8) unsigned | NO   |     | NULL    |                |
+| phone        | varchar(30)           | YES  |     | NULL    |                |
+| date_entered | date                  | YES  |     | NULL    |                |
+| sex          | enum('M','F')         | YES  |     | NULL    |                |
+| student_id   | int(10) unsigned      | NO   | PRI | NULL    | auto_increment |
++--------------+-----------------------+------+-----+---------+----------------+
+11 rows in set (0.03 sec)
+
+mysql> SELECT * FROM studentAA;
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+--------------+------+------------+
+| first_name | last_name | email            | street       | city      | state   | zip      | phone    | date_entered | sex  | student_id |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+--------------+------+------------+
+| std1       | sr1       | std1@school.com  | vantie 2     | Helsinki  | Uusi    |     1002 | 13256    | NULL         | NULL |       4050 |
+| std3       | sr3       | std3@school.com  | aantie 2     | Espoo     | Uusi    |      202 | 6456     | NULL         | NULL |       4052 |
+| std4       | sr4       | std4@school.com  | mantie 2     | Vaanta    | Uusi    |     4202 | 26456    | NULL         | NULL |       4057 |
+| std5       | sr5       | std5@school.com  | tantie 2     | Kupio     | Savo    |     1602 | 43256    | NULL         | NULL |       4071 |
+| std6       | sr6       | std6@school.com  | oantie 2     | kukko     | Savo    |     7602 | 83256    | NULL         | NULL |       4072 |
+| std7       | sr7       | std7@school.com  | OOOantie 2   | NY        | PA      |   997602 | 993256   | NULL         | NULL |       4073 |
+| std8       | sr8       | std8@school.com  | Wantie 2     | Texas     | Arizona |  9597602 | 55993256 | NULL         | NULL |       4074 |
+| std9       | sr9       | std9@school.com  | carWantie 6  | Washinton | M-Virgi | 16777215 | 7993256  | NULL         | NULL |       4077 |
+| std99      | sr99      | std99@school.com | vcarWantie 7 | MarryLand | M-Virgi | 16777215 | 8993256  | NULL         | NULL |       4078 |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+--------------+------+------------+
+9 rows in set (0.00 sec)
+
+mysql> UPDATE studentAA
+    -> SET sex='M'
+    -> WHERE last_name='sr1' OR last_name='sr4' OR last_name='sr6' OR last_name='sr7';
+Query OK, 4 rows affected (0.09 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> SELECT * FROM studentAA;
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+--------------+------+------------+
+| first_name | last_name | email            | street       | city      | state   | zip      | phone    | date_entered | sex  | student_id |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+--------------+------+------------+
+| std1       | sr1       | std1@school.com  | vantie 2     | Helsinki  | Uusi    |     1002 | 13256    | NULL         | M    |       4050 |
+| std3       | sr3       | std3@school.com  | aantie 2     | Espoo     | Uusi    |      202 | 6456     | NULL         | NULL |       4052 |
+| std4       | sr4       | std4@school.com  | mantie 2     | Vaanta    | Uusi    |     4202 | 26456    | NULL         | M    |       4057 |
+| std5       | sr5       | std5@school.com  | tantie 2     | Kupio     | Savo    |     1602 | 43256    | NULL         | NULL |       4071 |
+| std6       | sr6       | std6@school.com  | oantie 2     | kukko     | Savo    |     7602 | 83256    | NULL         | M    |       4072 |
+| std7       | sr7       | std7@school.com  | OOOantie 2   | NY        | PA      |   997602 | 993256   | NULL         | M    |       4073 |
+| std8       | sr8       | std8@school.com  | Wantie 2     | Texas     | Arizona |  9597602 | 55993256 | NULL         | NULL |       4074 |
+| std9       | sr9       | std9@school.com  | carWantie 6  | Washinton | M-Virgi | 16777215 | 7993256  | NULL         | NULL |       4077 |
+| std99      | sr99      | std99@school.com | vcarWantie 7 | MarryLand | M-Virgi | 16777215 | 8993256  | NULL         | NULL |       4078 |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+--------------+------+------------+
+9 rows in set (0.00 sec)
+
+mysql> UPDATE studentAA
+    -> SET sex='F'
+    -> WHERE sex=NULL;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> SELECT * FROM studentAA;
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+--------------+------+------------+
+| first_name | last_name | email            | street       | city      | state   | zip      | phone    | date_entered | sex  | student_id |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+--------------+------+------------+
+| std1       | sr1       | std1@school.com  | vantie 2     | Helsinki  | Uusi    |     1002 | 13256    | NULL         | M    |       4050 |
+| std3       | sr3       | std3@school.com  | aantie 2     | Espoo     | Uusi    |      202 | 6456     | NULL         | NULL |       4052 |
+| std4       | sr4       | std4@school.com  | mantie 2     | Vaanta    | Uusi    |     4202 | 26456    | NULL         | M    |       4057 |
+| std5       | sr5       | std5@school.com  | tantie 2     | Kupio     | Savo    |     1602 | 43256    | NULL         | NULL |       4071 |
+| std6       | sr6       | std6@school.com  | oantie 2     | kukko     | Savo    |     7602 | 83256    | NULL         | M    |       4072 |
+| std7       | sr7       | std7@school.com  | OOOantie 2   | NY        | PA      |   997602 | 993256   | NULL         | M    |       4073 |
+| std8       | sr8       | std8@school.com  | Wantie 2     | Texas     | Arizona |  9597602 | 55993256 | NULL         | NULL |       4074 |
+| std9       | sr9       | std9@school.com  | carWantie 6  | Washinton | M-Virgi | 16777215 | 7993256  | NULL         | NULL |       4077 |
+| std99      | sr99      | std99@school.com | vcarWantie 7 | MarryLand | M-Virgi | 16777215 | 8993256  | NULL         | NULL |       4078 |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+--------------+------+------------+
+9 rows in set (0.02 sec)
+
+mysql> UPDATE studentAA
+    -> SET sex='F'
+    -> WHERE sex='NULL';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> UPDATE studentAA
+    -> SET sex='F'
+    -> WHERE sex!='M';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> UPDATE studentAA
+    -> SET sex='F'
+    -> WHERE sex='';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> UPDATE studentAA
+    -> SET sex='F'
+    -> WHERE last_name='sr3' OR last_name='sr5' OR last_name='sr8' OR last_name='sr9' OR last_name='sr99';
+Query OK, 5 rows affected (0.12 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> SELECT * FROM studentAA;
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+--------------+------+------------+
+| first_name | last_name | email            | street       | city      | state   | zip      | phone    | date_entered | sex  | student_id |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+--------------+------+------------+
+| std1       | sr1       | std1@school.com  | vantie 2     | Helsinki  | Uusi    |     1002 | 13256    | NULL         | M    |       4050 |
+| std3       | sr3       | std3@school.com  | aantie 2     | Espoo     | Uusi    |      202 | 6456     | NULL         | F    |       4052 |
+| std4       | sr4       | std4@school.com  | mantie 2     | Vaanta    | Uusi    |     4202 | 26456    | NULL         | M    |       4057 |
+| std5       | sr5       | std5@school.com  | tantie 2     | Kupio     | Savo    |     1602 | 43256    | NULL         | F    |       4071 |
+| std6       | sr6       | std6@school.com  | oantie 2     | kukko     | Savo    |     7602 | 83256    | NULL         | M    |       4072 |
+| std7       | sr7       | std7@school.com  | OOOantie 2   | NY        | PA      |   997602 | 993256   | NULL         | M    |       4073 |
+| std8       | sr8       | std8@school.com  | Wantie 2     | Texas     | Arizona |  9597602 | 55993256 | NULL         | F    |       4074 |
+| std9       | sr9       | std9@school.com  | carWantie 6  | Washinton | M-Virgi | 16777215 | 7993256  | NULL         | F    |       4077 |
+| std99      | sr99      | std99@school.com | vcarWantie 7 | MarryLand | M-Virgi | 16777215 | 8993256  | NULL         | F    |       4078 |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+--------------+------+------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT sex, COUNT(*) FROM studentAA GROUP BY sex AS 'Sex';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AS 'Sex'' at line 1
+mysql> SELECT sex, COUNT(*) FROM studentAA GROUP BY sex;
++------+----------+
+| sex  | COUNT(*) |
++------+----------+
+| M    |        4 |
+| F    |        5 |
++------+----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT sex AS 'SEX', COUNT(*) FROM studentAA GROUP BY sex;
++------+----------+
+| SEX  | COUNT(*) |
++------+----------+
+| M    |        4 |
+| F    |        5 |
++------+----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT sex, COUNT(*) FROM studentAA ;
++------+----------+
+| sex  | COUNT(*) |
++------+----------+
+| M    |        9 |
++------+----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT sex AS 'SEX', COUNT(') FROM studentAA GROUP BY sex;
+    '>
+    '> ^C
+mysql> SELECT state AS 'STATE', COUNT(*) FROM studentAA GROUP BY state;
++---------+----------+
+| STATE   | COUNT(*) |
++---------+----------+
+| Arizona |        1 |
+| M-Virgi |        2 |
+| PA      |        1 |
+| Savo    |        2 |
+| Uusi    |        3 |
++---------+----------+
+5 rows in set (0.00 sec)
+
+mysql> ALTER TABLE studentAA
+    -> ADD bith_date DATE NOT NULL AFTER date_entered;
+Query OK, 0 rows affected (0.50 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> UPDATE studentAA
+    -> SET birth_date='1998.01.20';
+ERROR 1054 (42S22): Unknown column 'birth_date' in 'field list'
+mysql> ALTER TABLE studentAA
+    -> ADD birth_date VARCHAR(30) NOT NULL AFTER phone;
+Query OK, 0 rows affected (0.82 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE studentAA;
++--------------+-----------------------+------+-----+---------+----------------+
+| Field        | Type                  | Null | Key | Default | Extra          |
++--------------+-----------------------+------+-----+---------+----------------+
+| first_name   | varchar(30)           | NO   |     | NULL    |                |
+| last_name    | varchar(30)           | NO   |     | NULL    |                |
+| email        | varchar(60)           | YES  |     | NULL    |                |
+| street       | varchar(40)           | NO   |     | NULL    |                |
+| city         | varchar(40)           | NO   |     | NULL    |                |
+| state        | char(7)               | NO   |     | ESP     |                |
+| zip          | mediumint(8) unsigned | NO   |     | NULL    |                |
+| phone        | varchar(30)           | YES  |     | NULL    |                |
+| birth_date   | varchar(30)           | NO   |     | NULL    |                |
+| date_entered | date                  | YES  |     | NULL    |                |
+| bith_date    | date                  | NO   |     | NULL    |                |
+| sex          | enum('M','F')         | YES  |     | NULL    |                |
+| student_id   | int(10) unsigned      | NO   | PRI | NULL    | auto_increment |
++--------------+-----------------------+------+-----+---------+----------------+
+13 rows in set (0.00 sec)
+
+mysql> UPDATE studentAA
+    -> REMOVE birth_date
+    -> WHERE birth_date DATE NOT NULL;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'birth_date
+WHERE birth_date DATE NOT NULL' at line 2
+mysql> UPDATE studentAA
+    -> REMOVE birth_date;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'birth_date' at line 2
+mysql> SELECT * FROM studentAA;
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+| first_name | last_name | email            | street       | city      | state   | zip      | phone    | birth_date | date_entered | bith_date  | sex  | student_id |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+| std1       | sr1       | std1@school.com  | vantie 2     | Helsinki  | Uusi    |     1002 | 13256    |            | NULL         | 0000-00-00 | M    |       4050 |
+| std3       | sr3       | std3@school.com  | aantie 2     | Espoo     | Uusi    |      202 | 6456     |            | NULL         | 0000-00-00 | F    |       4052 |
+| std4       | sr4       | std4@school.com  | mantie 2     | Vaanta    | Uusi    |     4202 | 26456    |            | NULL         | 0000-00-00 | M    |       4057 |
+| std5       | sr5       | std5@school.com  | tantie 2     | Kupio     | Savo    |     1602 | 43256    |            | NULL         | 0000-00-00 | F    |       4071 |
+| std6       | sr6       | std6@school.com  | oantie 2     | kukko     | Savo    |     7602 | 83256    |            | NULL         | 0000-00-00 | M    |       4072 |
+| std7       | sr7       | std7@school.com  | OOOantie 2   | NY        | PA      |   997602 | 993256   |            | NULL         | 0000-00-00 | M    |       4073 |
+| std8       | sr8       | std8@school.com  | Wantie 2     | Texas     | Arizona |  9597602 | 55993256 |            | NULL         | 0000-00-00 | F    |       4074 |
+| std9       | sr9       | std9@school.com  | carWantie 6  | Washinton | M-Virgi | 16777215 | 7993256  |            | NULL         | 0000-00-00 | F    |       4077 |
+| std99      | sr99      | std99@school.com | vcarWantie 7 | MarryLand | M-Virgi | 16777215 | 8993256  |            | NULL         | 0000-00-00 | F    |       4078 |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+9 rows in set (0.00 sec)
+
+mysql> UPDATE studentAA
+    -> SET date_entered=NOW();
+Query OK, 9 rows affected, 9 warnings (0.12 sec)
+Rows matched: 9  Changed: 9  Warnings: 9
+
+mysql> UPDATE studentAA
+    -> SET date_entered=NOW()
+    -> WHERE student_id!=NULL;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> UPDATE studentAA
+    -> SET date_entered=NOW()
+    -> WHERE last_name!=NULL;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> UPDATE studentAA
+    -> SET date_entered=NOW()
+    -> WHERE last_name='sr1',last_name='sr3',last_name='sr4',last_name='sr5',last_name='sr6',last_name='sr7',last_name='sr8',last_name='sr9',last_name='sr999';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'last_name='sr3',last_name='sr4',last_name='sr5',last_name='sr6',last_name='sr7',' at line 3
+mysql> UPDATE studentAA
+    -> SET date_entered=NOW()
+    -> WHERE last_name='sr1' OR last_name='sr3' OR last_name='sr4' OR last_name='sr5' OR last_name='sr6' OR last_name='sr7' OR last_name='sr8' OR last_name='sr9' OR last_name='sr999';
+Query OK, 0 rows affected, 8 warnings (0.10 sec)
+Rows matched: 8  Changed: 0  Warnings: 8
+
+mysql> SELECT * FROM studentAA;
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+| first_name | last_name | email            | street       | city      | state   | zip      | phone    | birth_date | date_entered | bith_date  | sex  | student_id |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+| std1       | sr1       | std1@school.com  | vantie 2     | Helsinki  | Uusi    |     1002 | 13256    |            | 2017-10-18   | 0000-00-00 | M    |       4050 |
+| std3       | sr3       | std3@school.com  | aantie 2     | Espoo     | Uusi    |      202 | 6456     |            | 2017-10-18   | 0000-00-00 | F    |       4052 |
+| std4       | sr4       | std4@school.com  | mantie 2     | Vaanta    | Uusi    |     4202 | 26456    |            | 2017-10-18   | 0000-00-00 | M    |       4057 |
+| std5       | sr5       | std5@school.com  | tantie 2     | Kupio     | Savo    |     1602 | 43256    |            | 2017-10-18   | 0000-00-00 | F    |       4071 |
+| std6       | sr6       | std6@school.com  | oantie 2     | kukko     | Savo    |     7602 | 83256    |            | 2017-10-18   | 0000-00-00 | M    |       4072 |
+| std7       | sr7       | std7@school.com  | OOOantie 2   | NY        | PA      |   997602 | 993256   |            | 2017-10-18   | 0000-00-00 | M    |       4073 |
+| std8       | sr8       | std8@school.com  | Wantie 2     | Texas     | Arizona |  9597602 | 55993256 |            | 2017-10-18   | 0000-00-00 | F    |       4074 |
+| std9       | sr9       | std9@school.com  | carWantie 6  | Washinton | M-Virgi | 16777215 | 7993256  |            | 2017-10-18   | 0000-00-00 | F    |       4077 |
+| std99      | sr99      | std99@school.com | vcarWantie 7 | MarryLand | M-Virgi | 16777215 | 8993256  |            | 2017-10-18   | 0000-00-00 | F    |       4078 |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+9 rows in set (0.00 sec)
+
+mysql> UPDATE studentAA
+    -> SET birth_date='1990-10-17'
+    -> WHERE last_name='sr1' OR last_name='sr3' OR last_name='sr4' OR last_name='sr5' OR last_name='sr6' OR last_name='sr7' OR last_name='sr8' OR last_name='sr9' OR last_name='sr999';
+Query OK, 8 rows affected (0.12 sec)
+Rows matched: 8  Changed: 8  Warnings: 0
+
+mysql> SELECT * FROM studentAA
+    -> ;
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+| first_name | last_name | email            | street       | city      | state   | zip      | phone    | birth_date | date_entered | bith_date  | sex  | student_id |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+| std1       | sr1       | std1@school.com  | vantie 2     | Helsinki  | Uusi    |     1002 | 13256    | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4050 |
+| std3       | sr3       | std3@school.com  | aantie 2     | Espoo     | Uusi    |      202 | 6456     | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4052 |
+| std4       | sr4       | std4@school.com  | mantie 2     | Vaanta    | Uusi    |     4202 | 26456    | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4057 |
+| std5       | sr5       | std5@school.com  | tantie 2     | Kupio     | Savo    |     1602 | 43256    | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4071 |
+| std6       | sr6       | std6@school.com  | oantie 2     | kukko     | Savo    |     7602 | 83256    | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4072 |
+| std7       | sr7       | std7@school.com  | OOOantie 2   | NY        | PA      |   997602 | 993256   | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4073 |
+| std8       | sr8       | std8@school.com  | Wantie 2     | Texas     | Arizona |  9597602 | 55993256 | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4074 |
+| std9       | sr9       | std9@school.com  | carWantie 6  | Washinton | M-Virgi | 16777215 | 7993256  | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4077 |
+| std99      | sr99      | std99@school.com | vcarWantie 7 | MarryLand | M-Virgi | 16777215 | 8993256  |            | 2017-10-18   | 0000-00-00 | F    |       4078 |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+9 rows in set (0.00 sec)
+
+mysql> UPDATE studentAA
+    -> SET birth_date='1991-07-27'
+    -> WHERE last_name='std99';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> UPDATE studentAA
+    -> SET birth_date='1991-07-27'
+    -> WHERE last_name='sr99';
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM studentAA;
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+| first_name | last_name | email            | street       | city      | state   | zip      | phone    | birth_date | date_entered | bith_date  | sex  | student_id |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+| std1       | sr1       | std1@school.com  | vantie 2     | Helsinki  | Uusi    |     1002 | 13256    | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4050 |
+| std3       | sr3       | std3@school.com  | aantie 2     | Espoo     | Uusi    |      202 | 6456     | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4052 |
+| std4       | sr4       | std4@school.com  | mantie 2     | Vaanta    | Uusi    |     4202 | 26456    | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4057 |
+| std5       | sr5       | std5@school.com  | tantie 2     | Kupio     | Savo    |     1602 | 43256    | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4071 |
+| std6       | sr6       | std6@school.com  | oantie 2     | kukko     | Savo    |     7602 | 83256    | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4072 |
+| std7       | sr7       | std7@school.com  | OOOantie 2   | NY        | PA      |   997602 | 993256   | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4073 |
+| std8       | sr8       | std8@school.com  | Wantie 2     | Texas     | Arizona |  9597602 | 55993256 | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4074 |
+| std9       | sr9       | std9@school.com  | carWantie 6  | Washinton | M-Virgi | 16777215 | 7993256  | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4077 |
+| std99      | sr99      | std99@school.com | vcarWantie 7 | MarryLand | M-Virgi | 16777215 | 8993256  | 1991-07-27 | 2017-10-18   | 0000-00-00 | F    |       4078 |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+9 rows in set (0.00 sec)
+
+mysql> ALTER TABLE studentAA
+    -> ^C
+mysql> SELECT MONTH(date_entered) FROM studentAA;
++---------------------+
+| MONTH(date_entered) |
++---------------------+
+|                  10 |
+|                  10 |
+|                  10 |
+|                  10 |
+|                  10 |
+|                  10 |
+|                  10 |
+|                  10 |
+|                  10 |
++---------------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT MONTH(birth_date) FROM studentAA;
++-------------------+
+| MONTH(birth_date) |
++-------------------+
+|                10 |
+|                10 |
+|                10 |
+|                10 |
+|                10 |
+|                10 |
+|                10 |
+|                10 |
+|                 7 |
++-------------------+
+9 rows in set (0.03 sec)
+
+mysql> SELECT MONTH(birth_date) AS 'Birth Date', COUNT(*) FROM studentAA;
++------------+----------+
+| Birth Date | COUNT(*) |
++------------+----------+
+|         10 |        9 |
++------------+----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MONTH(birth_date) AS 'Birth Date',COUNT(*) FROM studentAA GROUP BY birth_date;
++------------+----------+
+| Birth Date | COUNT(*) |
++------------+----------+
+|         10 |        8 |
+|          7 |        1 |
++------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT DAY(birth_date) AS 'Birth Date',COUNT(*) FROM studentAA GROUP BY birth_date ORDER BY birth_date ASC;
++------------+----------+
+| Birth Date | COUNT(*) |
++------------+----------+
+|         17 |        8 |
+|         27 |        1 |
++------------+----------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT MAX(score) AS 'Max Score', MIN(score) AS 'Min Score', COUNT(*) FROM score GROUP BY score ORDER BY score ASC;
++-----------+-----------+----------+
+| Max Score | Min Score | COUNT(*) |
++-----------+-----------+----------+
+|        85 |        85 |        1 |
+|        90 |        90 |        2 |
+|        94 |        94 |        1 |
+|        95 |        95 |        1 |
+|        97 |        97 |        2 |
+|        99 |        99 |        1 |
+|       100 |       100 |        1 |
++-----------+-----------+----------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT MAX(score) AS 'Max Score', MIN(score) AS 'Min Score', COUNT(DISTINCT score) FROM score GROUP BY score ORDER BY score ASC;
++-----------+-----------+-----------------------+
+| Max Score | Min Score | COUNT(DISTINCT score) |
++-----------+-----------+-----------------------+
+|        85 |        85 |                     1 |
+|        90 |        90 |                     1 |
+|        94 |        94 |                     1 |
+|        95 |        95 |                     1 |
+|        97 |        97 |                     1 |
+|        99 |        99 |                     1 |
+|       100 |       100 |                     1 |
++-----------+-----------+-----------------------+
+7 rows in set (0.03 sec)
+
+mysql> SELECT MAX(score) AS 'Max Score', COUNT(DISTINCT score) FROM score GROUP BY score ORDER BY score ASC;
++-----------+-----------------------+
+| Max Score | COUNT(DISTINCT score) |
++-----------+-----------------------+
+|        85 |                     1 |
+|        90 |                     1 |
+|        94 |                     1 |
+|        95 |                     1 |
+|        97 |                     1 |
+|        99 |                     1 |
+|       100 |                     1 |
++-----------+-----------------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT MAX(score) AS 'Max Score', COUNT(DISTINCT score) FROM score ORDER BY score ASC;R
++-----------+-----------------------+
+| Max Score | COUNT(DISTINCT score) |
++-----------+-----------------------+
+|       100 |                     7 |
++-----------+-----------------------+
+1 row in set (0.00 sec)
+
+    ->
+    -> ^C
+mysql> SELECT MAX(score) AS 'Max Score', COUNT(DISTINCT score) FROM score ORDER BY score ASC;
++-----------+-----------------------+
+| Max Score | COUNT(DISTINCT score) |
++-----------+-----------------------+
+|       100 |                     7 |
++-----------+-----------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT state, COUNT(state) FROM studentAA;
++-------+--------------+
+| state | COUNT(state) |
++-------+--------------+
+| Uusi  |            9 |
++-------+--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT state AS 'State', COUNT(state) FROM studentAA;
++-------+--------------+
+| State | COUNT(state) |
++-------+--------------+
+| Uusi  |            9 |
++-------+--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT state AS 'State', COUNT(state) FROM studentAA GROUP BY state;
++---------+--------------+
+| State   | COUNT(state) |
++---------+--------------+
+| Arizona |            1 |
+| M-Virgi |            2 |
+| PA      |            1 |
+| Savo    |            2 |
+| Uusi    |            3 |
++---------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT state AS 'State',COUNT(state) FROM studentAA GROUP BY state ORDER BY state ASC;
++---------+--------------+
+| State   | COUNT(state) |
++---------+--------------+
+| Arizona |            1 |
+| M-Virgi |            2 |
+| PA      |            1 |
+| Savo    |            2 |
+| Uusi    |            3 |
++---------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT state AS 'State',COUNT(state) FROM studentAA GROUP BY state ORDER BY state DESC;
++---------+--------------+
+| State   | COUNT(state) |
++---------+--------------+
+| Uusi    |            3 |
+| Savo    |            2 |
+| PA      |            1 |
+| M-Virgi |            2 |
+| Arizona |            1 |
++---------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT state AS 'State',COUNT(state) FROM studentAA GROUP BY state ORDER BY State DESC;
++---------+--------------+
+| State   | COUNT(state) |
++---------+--------------+
+| Uusi    |            3 |
+| Savo    |            2 |
+| PA      |            1 |
+| M-Virgi |            2 |
+| Arizona |            1 |
++---------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT state AS 'State',COUNT(state) FROM studentAA GROUP BY state ORDER BY COUNT(state) DESC;
++---------+--------------+
+| State   | COUNT(state) |
++---------+--------------+
+| Uusi    |            3 |
+| Savo    |            2 |
+| M-Virgi |            2 |
+| PA      |            1 |
+| Arizona |            1 |
++---------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT score AS 'Score', COUNT(score) AS 'Total Score' FROM studentAA GROUP BY score ORDER BY COUNT(score) DESC;
+ERROR 1054 (42S22): Unknown column 'score' in 'field list'
+mysql> SELECT score AS 'Score', COUNT(score) AS 'Total Score' FROM studentAA GROUP BY score ORDER BY COUNT(score) ASC;
+ERROR 1054 (42S22): Unknown column 'score' in 'field list'
+mysql> SELECT score AS 'Score', COUNT(score) AS 'Total Score' FROM score GROUP BY score ORDER BY COUNT(score) ASC;
++-------+-------------+
+| Score | Total Score |
++-------+-------------+
+|    99 |           1 |
+|    85 |           1 |
+|    95 |           1 |
+|    94 |           1 |
+|   100 |           1 |
+|    90 |           2 |
+|    97 |           2 |
++-------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT state AS 'State',COUNT(state) AS 'State Count' FROM studentAA GROUP BY state;
++---------+-------------+
+| State   | State Count |
++---------+-------------+
+| Arizona |           1 |
+| M-Virgi |           2 |
+| PA      |           1 |
+| Savo    |           2 |
+| Uusi    |           3 |
++---------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT state AS 'State', COUNT(state) AS 'State Count' FROM studentAA GROUP BY state ORDER BY state ASC;
++---------+-------------+
+| State   | State Count |
++---------+-------------+
+| Arizona |           1 |
+| M-Virgi |           2 |
+| PA      |           1 |
+| Savo    |           2 |
+| Uusi    |           3 |
++---------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT state AS 'State', COUNT(state) AS 'State Count' FROM studentAA GROUP BY state ORDER BY State Count ASC;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Count ASC' at line 1
+mysql> SELECT state AS 'State', COUNT(state) AS 'State Count' FROM studentAA GROUP BY state ORDER BY CUNT(state) ASC;
+ERROR 1305 (42000): FUNCTION student.CUNT does not exist
+mysql> SELECT state AS 'State', COUNT(state) AS 'State Count' FROM studentAA GROUP BY state ORDER BY COUNT(state) ASC;
++---------+-------------+
+| State   | State Count |
++---------+-------------+
+| PA      |           1 |
+| Arizona |           1 |
+| Savo    |           2 |
+| M-Virgi |           2 |
+| Uusi    |           3 |
++---------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> DESCRIBE score;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| student_id | int(10) unsigned | NO   | PRI | NULL    |       |
+| event_id   | int(10) unsigned | NO   | PRI | NULL    |       |
+| score      | int(11)          | NO   |     | NULL    |       |
++------------+------------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT student_id AS 'Student Id,MAX(score) AS 'Maximum Score',MIN(score) AS 'Minimum Score',AVG(score) AS 'Average Score',SUM(score) AS 'Total Sum',MAX(score)-MIN(score) AS 'Range' GROUP BY student_id ORDER BY student_id DESC;
+    '>
+    '> SELECT student_id AS 'Student Id',MAX(score) AS 'Maximum Score',MIN(score) AS 'Minimum Score',AVG(score) AS 'Average Score',SUM(score) AS 'Total Sum',MAX(score)-MIN(score) AS 'Range' GROUP BY student_id ORDER BY student_id DESC;
+    '> ^C
+mysql>  SELECT student_id AS 'Student Id',MAX(score) AS 'Maximum Score',MIN(score) AS 'Minimum Score',AVG(score) AS 'Average Score',SUM(score) AS 'Total Sum',MAX(score)-MIN(score) AS 'Range' GROUP BY student_id ORDER BY student_id DESC;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'GROUP BY student_id ORDER BY student_id DESC' at line 1
+mysql>  SELECT student_id AS 'Student Id',MAX(score) AS 'Maximum Score',MIN(score) AS 'Minimum Score',AVG(score) AS 'Average Score',SUM(score) AS 'Total Sum',MAX(score)-MIN(score) AS 'Range' FROM score GROUP BY student_id ORDER BY student_id DESC;
++------------+---------------+---------------+---------------+-----------+-------+
+| Student Id | Maximum Score | Minimum Score | Average Score | Total Sum | Range |
++------------+---------------+---------------+---------------+-----------+-------+
+|       4078 |            90 |            90 |       90.0000 |        90 |     0 |
+|       4077 |           100 |           100 |      100.0000 |       100 |     0 |
+|       4074 |            94 |            94 |       94.0000 |        94 |     0 |
+|       4073 |            97 |            97 |       97.0000 |        97 |     0 |
+|       4072 |            97 |            97 |       97.0000 |        97 |     0 |
+|       4071 |            95 |            95 |       95.0000 |        95 |     0 |
+|       4057 |            85 |            85 |       85.0000 |        85 |     0 |
+|       4052 |            90 |            90 |       90.0000 |        90 |     0 |
+|       4050 |            99 |            99 |       99.0000 |        99 |     0 |
++------------+---------------+---------------+---------------+-----------+-------+
+9 rows in set (0.07 sec)
+
+mysql> INSERT TABLE score VALUE
+    -> (4078,^C)
+mysql> SELECT * FROM score;
++------------+----------+-------+
+| student_id | event_id | score |
++------------+----------+-------+
+|       4050 |    40501 |    99 |
+|       4052 |    40521 |    90 |
+|       4057 |    40571 |    85 |
+|       4071 |    40711 |    95 |
+|       4072 |    40722 |    97 |
+|       4074 |    40744 |    94 |
+|       4073 |    40773 |    97 |
+|       4077 |    40777 |   100 |
+|       4078 |    40778 |    90 |
++------------+----------+-------+
+9 rows in set (0.02 sec)
+
+mysql> ALTER TABLE score
+    -> ADD score2 INT NOT NULL AFTER score;
+Query OK, 0 rows affected (0.46 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE score
+    -> ^C
+mysql> DESCRIBE score;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| student_id | int(10) unsigned | NO   | PRI | NULL    |       |
+| event_id   | int(10) unsigned | NO   | PRI | NULL    |       |
+| score      | int(11)          | NO   |     | NULL    |       |
+| score2     | int(11)          | NO   |     | NULL    |       |
++------------+------------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> UPDATE score
+    -> ^C
+mysql> INSERT TABLE score VALUE
+    -> ^C
+mysql> UPDATE score
+    -> SET score2=95
+    -> WHERE student_id=4050, SET score2=100 WHERE student_id=4052;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' SET score2=100 WHERE student_id=4052' at line 3
+mysql> UPDATE score
+    -> SET score2=95
+    -> WHERE student_is=4050;
+ERROR 1054 (42S22): Unknown column 'student_is' in 'where clause'
+mysql> UPDATE score
+    -> SET score2=95
+    -> WHERE student_id=4050;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE score
+    -> SET score2=89
+    -> WHERE student_id=4052;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SET score2=97
+    -> ^C
+mysql> UPDATE score
+    -> SET score2=99
+    -> WHERE student_id=4057;
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE score
+    -> SET score2=91
+    -> WHERE student_id=4071;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE score
+    -> SET score2=95
+    -> WHERE student_id=4072;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE score
+    -> SET score2=94
+    -> WHERE student_id=4073;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE score
+    -> SET score2=93
+    -> WHERE student_id=4074;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE score
+    -> SET score2=100
+    -> WHERE student_id=4074;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM score
+    -> ;
++------------+----------+-------+--------+
+| student_id | event_id | score | score2 |
++------------+----------+-------+--------+
+|       4050 |    40501 |    99 |     95 |
+|       4052 |    40521 |    90 |     89 |
+|       4057 |    40571 |    85 |     99 |
+|       4071 |    40711 |    95 |     91 |
+|       4072 |    40722 |    97 |     95 |
+|       4074 |    40744 |    94 |    100 |
+|       4073 |    40773 |    97 |     94 |
+|       4077 |    40777 |   100 |      0 |
+|       4078 |    40778 |    90 |      0 |
++------------+----------+-------+--------+
+9 rows in set (0.00 sec)
+
+mysql> UPDATE score
+    -> SET score2=100
+    -> WHERE student_id=4077;
+Query OK, 1 row affected (0.32 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE score
+    -> SET score2=99
+    -> WHERE student_id=4078;
+Query OK, 1 row affected (0.33 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM score;
++------------+----------+-------+--------+
+| student_id | event_id | score | score2 |
++------------+----------+-------+--------+
+|       4050 |    40501 |    99 |     95 |
+|       4052 |    40521 |    90 |     89 |
+|       4057 |    40571 |    85 |     99 |
+|       4071 |    40711 |    95 |     91 |
+|       4072 |    40722 |    97 |     95 |
+|       4074 |    40744 |    94 |    100 |
+|       4073 |    40773 |    97 |     94 |
+|       4077 |    40777 |   100 |    100 |
+|       4078 |    40778 |    90 |     99 |
++------------+----------+-------+--------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT student_id AS 'Student Id',MAX(score) AS Max, MIN(score) As Minimum Score,MAX(score)-MIN(score) AS Range, SUM(score) AS Total Sum, AVG(score) AS Average FROM score GROUP BY student_id ORDER BY score ASC;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Score,MAX(score)-MIN(score) AS Range, SUM(score) AS Total Sum, AVG(score) AS Ave' at line 1
+mysql> SELECT student_id AS 'Student Id',MAX(score) AS 'Max', MIN(score) As 'Minimum Score',MAX(score)-MIN(score) AS 'Range', SUM(score) AS 'Total Sum', AVG(score) AS 'Average' FROM score GROUP BY student_id ORDER BY score ASC;
++------------+------+---------------+-------+-----------+----------+
+| Student Id | Max  | Minimum Score | Range | Total Sum | Average  |
++------------+------+---------------+-------+-----------+----------+
+|       4057 |   85 |            85 |     0 |        85 |  85.0000 |
+|       4078 |   90 |            90 |     0 |        90 |  90.0000 |
+|       4052 |   90 |            90 |     0 |        90 |  90.0000 |
+|       4074 |   94 |            94 |     0 |        94 |  94.0000 |
+|       4071 |   95 |            95 |     0 |        95 |  95.0000 |
+|       4072 |   97 |            97 |     0 |        97 |  97.0000 |
+|       4073 |   97 |            97 |     0 |        97 |  97.0000 |
+|       4050 |   99 |            99 |     0 |        99 |  99.0000 |
+|       4077 |  100 |           100 |     0 |       100 | 100.0000 |
++------------+------+---------------+-------+-----------+----------+
+9 rows in set (0.00 sec)
+
+mysql> ALTER TABLE score
+    -> CHANGE score2 INT NOT NULL INTO score INT NOT NULL;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'INT NOT NULL INTO score INT NOT NULL' at line 2
+mysql> ALTER TABLE score
+    -> CHANGE score2 score INT NOT NULL;
+ERROR 1060 (42S21): Duplicate column name 'score'
+mysql> DESCRIBE score;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| student_id | int(10) unsigned | NO   | PRI | NULL    |       |
+| event_id   | int(10) unsigned | NO   | PRI | NULL    |       |
+| score      | int(11)          | NO   |     | NULL    |       |
+| score2     | int(11)          | NO   |     | NULL    |       |
++------------+------------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT *  FROM score;
++------------+----------+-------+--------+
+| student_id | event_id | score | score2 |
++------------+----------+-------+--------+
+|       4050 |    40501 |    99 |     95 |
+|       4052 |    40521 |    90 |     89 |
+|       4057 |    40571 |    85 |     99 |
+|       4071 |    40711 |    95 |     91 |
+|       4072 |    40722 |    97 |     95 |
+|       4074 |    40744 |    94 |    100 |
+|       4073 |    40773 |    97 |     94 |
+|       4077 |    40777 |   100 |    100 |
+|       4078 |    40778 |    90 |     99 |
++------------+----------+-------+--------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT student_id AS 'Student Id',MAX(score,score2) AS 'Max', MIN(score) As 'Minimum Score',MAX(score)-MIN(score) AS 'Range', SUM(score) AS 'Total Sum', AVG(score) AS 'Average' FROM score GROUP BY student_id ORDER BY score ASC;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'score2) AS 'Max', MIN(score) As 'Minimum Score',MAX(score)-MIN(score) AS 'Range'' at line 1
+mysql> SELECT student_id AS 'Student Id',(MAX(score)+MAX(score2)/2) AS 'Max Avg', MIN(score) As 'Minimum Score',MAX(score)-MIN(score) AS 'Range', SUM(score) AS 'Total Sum', AVG(score) AS 'Average' FROM score GROUP BY student_id ORDER BY score ASC;
++------------+----------+---------------+-------+-----------+----------+
+| Student Id | Max Avg  | Minimum Score | Range | Total Sum | Average  |
++------------+----------+---------------+-------+-----------+----------+
+|       4057 | 134.5000 |            85 |     0 |        85 |  85.0000 |
+|       4078 | 139.5000 |            90 |     0 |        90 |  90.0000 |
+|       4052 | 134.5000 |            90 |     0 |        90 |  90.0000 |
+|       4074 | 144.0000 |            94 |     0 |        94 |  94.0000 |
+|       4071 | 140.5000 |            95 |     0 |        95 |  95.0000 |
+|       4072 | 144.5000 |            97 |     0 |        97 |  97.0000 |
+|       4073 | 144.0000 |            97 |     0 |        97 |  97.0000 |
+|       4050 | 146.5000 |            99 |     0 |        99 |  99.0000 |
+|       4077 | 150.0000 |           100 |     0 |       100 | 100.0000 |
++------------+----------+---------------+-------+-----------+----------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT student_id AS 'Student Id',(MAX(score)+MAX(score2))/2 AS 'Max Avg', (MIN(score)+MIN(score))/2 As 'Minimum Avg',MAX(score)-MIN(score2) AS 'Range', (SUM(score)+SUM(score2))/2 AS 'Total Sum', (AVG(score)+AVG(score2))/2 AS 'Average' FROM score GROUP BY student_id ORDER BY score ASC;
++------------+----------+-------------+-------+-----------+--------------+
+| Student Id | Max Avg  | Minimum Avg | Range | Total Sum | Average      |
++------------+----------+-------------+-------+-----------+--------------+
+|       4057 |  92.0000 |     85.0000 |   -14 |   92.0000 |  92.00000000 |
+|       4052 |  89.5000 |     90.0000 |     1 |   89.5000 |  89.50000000 |
+|       4078 |  94.5000 |     90.0000 |    -9 |   94.5000 |  94.50000000 |
+|       4074 |  97.0000 |     94.0000 |    -6 |   97.0000 |  97.00000000 |
+|       4071 |  93.0000 |     95.0000 |     4 |   93.0000 |  93.00000000 |
+|       4073 |  95.5000 |     97.0000 |     3 |   95.5000 |  95.50000000 |
+|       4072 |  96.0000 |     97.0000 |     2 |   96.0000 |  96.00000000 |
+|       4050 |  97.0000 |     99.0000 |     4 |   97.0000 |  97.00000000 |
+|       4077 | 100.0000 |    100.0000 |     0 |  100.0000 | 100.00000000 |
++------------+----------+-------------+-------+-----------+--------------+
+9 rows in set (0.04 sec)
+
+mysql> SELECT student_id AS 'Student Id',(MAX(score)+MAX(score2))/2 AS 'Max Avg', (MIN(score)+MIN(score))/2 As 'Minimum Avg',ABS(MAX(score)-MIN(score2)) AS 'Range', (SUM(score)+SUM(score2))/2 AS 'Total Sum', (AVG(score)+AVG(score2))/2 AS 'Average' FROM score GROUP BY student_id ORDER BY score ASC;
++------------+----------+-------------+-------+-----------+--------------+
+| Student Id | Max Avg  | Minimum Avg | Range | Total Sum | Average      |
++------------+----------+-------------+-------+-----------+--------------+
+|       4057 |  92.0000 |     85.0000 |    14 |   92.0000 |  92.00000000 |
+|       4052 |  89.5000 |     90.0000 |     1 |   89.5000 |  89.50000000 |
+|       4078 |  94.5000 |     90.0000 |     9 |   94.5000 |  94.50000000 |
+|       4074 |  97.0000 |     94.0000 |     6 |   97.0000 |  97.00000000 |
+|       4071 |  93.0000 |     95.0000 |     4 |   93.0000 |  93.00000000 |
+|       4073 |  95.5000 |     97.0000 |     3 |   95.5000 |  95.50000000 |
+|       4072 |  96.0000 |     97.0000 |     2 |   96.0000 |  96.00000000 |
+|       4050 |  97.0000 |     99.0000 |     4 |   97.0000 |  97.00000000 |
+|       4077 | 100.0000 |    100.0000 |     0 |  100.0000 | 100.00000000 |
++------------+----------+-------------+-------+-----------+--------------+
+9 rows in set (0.09 sec)
+
+mysql> CREATE TABLE absence;
+ERROR 1113 (42000): A table must have at least 1 column
+mysql> CREATE TABLE absence(
+    -> student_id INT UNSIGNED NOT NULL,
+    -> date DATE NOT NULL,
+    -> PRIMARY KEY(student_id,date));
+Query OK, 0 rows affected (0.30 sec)
+
+mysql> DESCRIBE absence;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| student_id | int(10) unsigned | NO   | PRI | NULL    |       |
+| date       | date             | NO   | PRI | NULL    |       |
++------------+------------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT absence VALUE
+    -> (^C
+mysql>
+mysql> SELECT * FROM studentAA;
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+| first_name | last_name | email            | street       | city      | state   | zip      | phone    | birth_date | date_entered | bith_date  | sex  | student_id |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+| std1       | sr1       | std1@school.com  | vantie 2     | Helsinki  | Uusi    |     1002 | 13256    | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4050 |
+| std3       | sr3       | std3@school.com  | aantie 2     | Espoo     | Uusi    |      202 | 6456     | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4052 |
+| std4       | sr4       | std4@school.com  | mantie 2     | Vaanta    | Uusi    |     4202 | 26456    | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4057 |
+| std5       | sr5       | std5@school.com  | tantie 2     | Kupio     | Savo    |     1602 | 43256    | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4071 |
+| std6       | sr6       | std6@school.com  | oantie 2     | kukko     | Savo    |     7602 | 83256    | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4072 |
+| std7       | sr7       | std7@school.com  | OOOantie 2   | NY        | PA      |   997602 | 993256   | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4073 |
+| std8       | sr8       | std8@school.com  | Wantie 2     | Texas     | Arizona |  9597602 | 55993256 | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4074 |
+| std9       | sr9       | std9@school.com  | carWantie 6  | Washinton | M-Virgi | 16777215 | 7993256  | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4077 |
+| std99      | sr99      | std99@school.com | vcarWantie 7 | MarryLand | M-Virgi | 16777215 | 8993256  | 1991-07-27 | 2017-10-18   | 0000-00-00 | F    |       4078 |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT student_id FROM studentAA ORDER BY student_id;
++------------+
+| student_id |
++------------+
+|       4050 |
+|       4052 |
+|       4057 |
+|       4071 |
+|       4072 |
+|       4073 |
+|       4074 |
+|       4077 |
+|       4078 |
++------------+
+9 rows in set (0.00 sec)
+
+mysql> INSERT absence VALUE
+    -> (4050,NOW()),
+    -> (4072,NOW());
+Query OK, 2 rows affected, 2 warnings (0.10 sec)
+Records: 2  Duplicates: 0  Warnings: 2
+
+mysql> SELECT*FROM absence;
++------------+------------+
+| student_id | date       |
++------------+------------+
+|       4050 | 2017-10-18 |
+|       4072 | 2017-10-18 |
++------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> DESCRIBE score;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| student_id | int(10) unsigned | NO   | PRI | NULL    |       |
+| event_id   | int(10) unsigned | NO   | PRI | NULL    |       |
+| score      | int(11)          | NO   |     | NULL    |       |
+| score2     | int(11)          | NO   |     | NULL    |       |
++------------+------------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE test(
+    -> date NOW() NOT NULL,
+    -> type ENUM('P','R') NOT NULL,
+    -> class_id INT UNSIGNED NOT NULL,
+    -> test_id INT NOT NULL);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'NOW() NOT NULL,
+type ENUM('P','R') NOT NULL,
+class_id INT UNSIGNED NOT NULL,
+tes' at line 2
+mysql> CREATE TABLE test(
+    -> date NOW() NOT NULL,
+    -> type CHAR(1) NOT NULL,
+    -> class_id INT UNSIGNED NOT NULL,
+    -> test_id INT NOT NULL);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'NOW() NOT NULL,
+type CHAR(1) NOT NULL,
+class_id INT UNSIGNED NOT NULL,
+test_id I' at line 2
+mysql> CREATE TABLE test(
+    -> date DATE NOT NULL,
+    -> type ENUM('A','B')NOT NULL,
+    -> class_id INT UNSIGNED NOT NULL,
+    -> test_id INT NOT NULL);
+Query OK, 0 rows affected (0.46 sec)
+
+mysql> INSERT test VALUE
+    -> (NOW(),'A',1234,50505),
+    -> (NOW(),'A',2345,50506),
+    -> (NOW(),'B',3456,50507),
+    -> (NOW(),'A',4567,50508),
+    -> (NOW(),'A',5678,50509),
+    -> (NOW(),'B',5679,50709);
+Query OK, 6 rows affected, 6 warnings (0.09 sec)
+Records: 6  Duplicates: 0  Warnings: 6
+
+mysql> ALTER TABLE score
+    -> ^C
+mysql>
+mysql> DESCRIBE score;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| student_id | int(10) unsigned | NO   | PRI | NULL    |       |
+| event_id   | int(10) unsigned | NO   | PRI | NULL    |       |
+| score      | int(11)          | NO   |     | NULL    |       |
+| score2     | int(11)          | NO   |     | NULL    |       |
++------------+------------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> ALTER TABLE score
+    -> CHANGE event_id INTO test_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'INTO test_id' at line 2
+mysql> DELETE FROM absence
+    -> WHERE class_id=1234;
+ERROR 1054 (42S22): Unknown column 'class_id' in 'where clause'
+mysql> DESCRIBE absence;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| student_id | int(10) unsigned | NO   | PRI | NULL    |       |
+| date       | date             | NO   | PRI | NULL    |       |
++------------+------------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> DELETE FROM absence
+    -> WHERE student_id=1234;
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> SELECT * FROM absence;
++------------+------------+
+| student_id | date       |
++------------+------------+
+|       4050 | 2017-10-18 |
+|       4072 | 2017-10-18 |
++------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> DELETE FROM absence WHERE student_id=4050;
+Query OK, 1 row affected (0.09 sec)
+
+mysql> SELECT * FROM absence;
++------------+------------+
+| student_id | date       |
++------------+------------+
+|       4072 | 2017-10-18 |
++------------+------------+
+1 row in set (0.00 sec)
+
+mysql> DESCRIBE absence;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| student_id | int(10) unsigned | NO   | PRI | NULL    |       |
+| date       | date             | NO   | PRI | NULL    |       |
++------------+------------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER TABLE absence
+    -> ADD COLUMN test_id CHAR(1) NOT NULL DEFAULT 'F'
+    -> AFTER date;
+Query OK, 0 rows affected (0.43 sec)
+Records: 0  Duplicates: 0  Warnings: 0

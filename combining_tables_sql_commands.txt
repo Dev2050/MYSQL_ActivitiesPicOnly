@@ -1,0 +1,335 @@
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.5.5-10.1.26-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| students           |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> USE student;
+Database changed
+mysql> SELECT DATABASE();
++------------+
+| DATABASE() |
++------------+
+| student    |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_student |
++-------------------+
+| absence           |
+| class             |
+| score             |
+| studentaa         |
+| test              |
++-------------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM studentAA;
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+| first_name | last_name | email            | street       | city      | state   | zip      | phone    | birth_date | date_entered | bith_date  | sex  | student_id |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+| std1       | sr1       | std1@school.com  | vantie 2     | Helsinki  | Uusi    |     1002 | 13256    | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4050 |
+| std3       | sr3       | std3@school.com  | aantie 2     | Espoo     | Uusi    |      202 | 6456     | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4052 |
+| std4       | sr4       | std4@school.com  | mantie 2     | Vaanta    | Uusi    |     4202 | 26456    | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4057 |
+| std5       | sr5       | std5@school.com  | tantie 2     | Kupio     | Savo    |     1602 | 43256    | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4071 |
+| std6       | sr6       | std6@school.com  | oantie 2     | kukko     | Savo    |     7602 | 83256    | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4072 |
+| std7       | sr7       | std7@school.com  | OOOantie 2   | NY        | PA      |   997602 | 993256   | 1990-10-17 | 2017-10-18   | 0000-00-00 | M    |       4073 |
+| std8       | sr8       | std8@school.com  | Wantie 2     | Texas     | Arizona |  9597602 | 55993256 | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4074 |
+| std9       | sr9       | std9@school.com  | carWantie 6  | Washinton | M-Virgi | 16777215 | 7993256  | 1990-10-17 | 2017-10-18   | 0000-00-00 | F    |       4077 |
+| std99      | sr99      | std99@school.com | vcarWantie 7 | MarryLand | M-Virgi | 16777215 | 8993256  | 1991-07-27 | 2017-10-18   | 0000-00-00 | F    |       4078 |
++------------+-----------+------------------+--------------+-----------+---------+----------+----------+------------+--------------+------------+------+------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT * FROM score;
++------------+----------+-------+--------+
+| student_id | event_id | score | score2 |
++------------+----------+-------+--------+
+|       4050 |    40501 |    99 |     95 |
+|       4052 |    40521 |    90 |     89 |
+|       4057 |    40571 |    85 |     99 |
+|       4071 |    40711 |    95 |     91 |
+|       4072 |    40722 |    97 |     95 |
+|       4073 |    40744 |    94 |    100 |
+|       4074 |    40773 |    97 |     94 |
+|       4077 |    40777 |   100 |    100 |
+|       4078 |    40778 |    90 |     99 |
++------------+----------+-------+--------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT * FROM test;
++------------+------+----------+---------+
+| date       | type | class_id | test_id |
++------------+------+----------+---------+
+| 2017-10-18 | A    |     1234 |   50505 |
+| 2017-10-18 | A    |     2345 |   50506 |
+| 2017-10-18 | B    |     3456 |   50507 |
+| 2017-10-18 | A    |     4567 |   50508 |
+| 2017-10-18 | A    |     5678 |   50509 |
+| 2017-10-18 | B    |     5679 |   50709 |
++------------+------+----------+---------+
+6 rows in set (0.00 sec)
+
+mysql> ALTER TABLE test
+    -> ADD COLUMN student_id INT UNSIGNED NOT NULL BEFORE class_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'BEFORE class_id' at line 2
+mysql> ALTER TABLE test
+    -> ADD COLUMN student_id INT UNSIGNED NOT NULL AFTER class_id;
+Query OK, 0 rows affected (0.57 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT test VALUE
+    -> (^C
+mysql> DESCRIBE test;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| date       | date             | NO   |     | NULL    |       |
+| type       | enum('A','B')    | NO   |     | NULL    |       |
+| class_id   | int(10) unsigned | NO   |     | NULL    |       |
+| student_id | int(10) unsigned | NO   |     | NULL    |       |
+| test_id    | int(11)          | NO   |     | NULL    |       |
++------------+------------------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+mysql> ALTER TABLE test
+    -> DROP student_id;
+Query OK, 0 rows affected (0.46 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE test
+    -> CHANGE test_id student_id INT UNSIGNED NOT NULL;
+Query OK, 6 rows affected (1.18 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE test;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| date       | date             | NO   |     | NULL    |       |
+| type       | enum('A','B')    | NO   |     | NULL    |       |
+| class_id   | int(10) unsigned | NO   |     | NULL    |       |
+| student_id | int(10) unsigned | NO   |     | NULL    |       |
++------------+------------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> INSERT test VALUE
+    -> (NOW(),'B',123,4050),(NOW(),'A',234,4052),(NOW(),'B',345,4057),(NOW(),'A',456,4071),(NOW(),'B',456,4072),(NOW(),'A',567,4073),(NOW(),'B',678,4074),(NOW(),'A',789,4077),(NOW(),'B',8910,4078);
+Query OK, 9 rows affected, 9 warnings (0.12 sec)
+Records: 9  Duplicates: 0  Warnings: 9
+
+mysql> SELECT * FROM test;
++------------+------+----------+------------+
+| date       | type | class_id | student_id |
++------------+------+----------+------------+
+| 2017-10-18 | A    |     1234 |      50505 |
+| 2017-10-18 | A    |     2345 |      50506 |
+| 2017-10-18 | B    |     3456 |      50507 |
+| 2017-10-18 | A    |     4567 |      50508 |
+| 2017-10-18 | A    |     5678 |      50509 |
+| 2017-10-18 | B    |     5679 |      50709 |
+| 2017-10-19 | B    |      123 |       4050 |
+| 2017-10-19 | A    |      234 |       4052 |
+| 2017-10-19 | B    |      345 |       4057 |
+| 2017-10-19 | A    |      456 |       4071 |
+| 2017-10-19 | B    |      456 |       4072 |
+| 2017-10-19 | A    |      567 |       4073 |
+| 2017-10-19 | B    |      678 |       4074 |
+| 2017-10-19 | A    |      789 |       4077 |
+| 2017-10-19 | B    |     8910 |       4078 |
++------------+------+----------+------------+
+15 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT(first_name," ",last_name),studentAA.student_id,score.score AS 'First Test', score.score2 AS 'Second Test',ABS(MAX(score)-MAX(score2)) AS 'Range',LOG((MAX(score)+MIN(score2))/2) AS 'Avg Log' FROM studentAA,test,score WHERE studentAA.student_id=test.student_id AND studentAA.student_id=score.student_id AND score.student_id=test.student_id GROUP BY student_id ORDER BY studentAA.student_id LIMIT 1,5;
++----------------------------------+------------+------------+-------------+-------+--------------------+
+| CONCAT(first_name," ",last_name) | student_id | First Test | Second Test | Range | Avg Log            |
++----------------------------------+------------+------------+-------------+-------+--------------------+
+| std3 sr3                         |       4052 |         90 |          89 |     1 | 4.4942386252808095 |
+| std4 sr4                         |       4057 |         85 |          99 |    14 | 4.5217885770490405 |
+| std5 sr5                         |       4071 |         95 |          91 |     4 |  4.532599493153256 |
+| std6 sr6                         |       4072 |         97 |          95 |     2 |  4.564348191467836 |
+| std7 sr7                         |       4073 |         94 |         100 |     6 |  4.574710978503383 |
++----------------------------------+------------+------------+-------------+-------+--------------------+
+5 rows in set (0.09 sec)
+
+mysql> SELECT CONCAT(first_name," ",last_name),studentAA.student_id,score.score AS 'First Test', score.score2 AS 'Second Test',ABS(MAX(score)-MAX(score2)) AS 'Range',LOG((MAX(score)+MIN(score2))/2) AS 'Avg Log' FROM studentAA,test,score WHERE studentAA.student_id=test.student_id AND studentAA.student_id=score.student_id AND score.student_id=test.student_id GROUP BY student_id ORDER BY studentAA.student_id;
++----------------------------------+------------+------------+-------------+-------+--------------------+
+| CONCAT(first_name," ",last_name) | student_id | First Test | Second Test | Range | Avg Log            |
++----------------------------------+------------+------------+-------------+-------+--------------------+
+| std1 sr1                         |       4050 |         99 |          95 |     4 |  4.574710978503383 |
+| std3 sr3                         |       4052 |         90 |          89 |     1 | 4.4942386252808095 |
+| std4 sr4                         |       4057 |         85 |          99 |    14 | 4.5217885770490405 |
+| std5 sr5                         |       4071 |         95 |          91 |     4 |  4.532599493153256 |
+| std6 sr6                         |       4072 |         97 |          95 |     2 |  4.564348191467836 |
+| std7 sr7                         |       4073 |         94 |         100 |     6 |  4.574710978503383 |
+| std8 sr8                         |       4074 |         97 |          94 |     3 | 4.5591262474866845 |
+| std9 sr9                         |       4077 |        100 |         100 |     0 |  4.605170185988092 |
+| std99 sr99                       |       4078 |         90 |          99 |     9 |  4.548599834499697 |
++----------------------------------+------------+------------+-------------+-------+--------------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT(first_name," ",last_name),studentAA.student_id AS 'Student Id',score.score AS 'First Test', score.score2 AS 'Second Test',ABS(MAX(score)-MAX(score2)) AS 'Range',LOG((MAX(score)+MIN(score2))/2) AS 'Avg Log' FROM studentAA,test,score WHERE studentAA.student_id=test.student_id AND studentAA.student_id=score.student_id AND score.student_id=test.student_id GROUP BY student_id ORDER BY studentAA.student_id;
+ERROR 1052 (23000): Column 'student_id' in group statement is ambiguous
+mysql> SELECT CONCAT(first_name," ",last_name),studentAA.student_id,score.score AS 'First Test', score.score2 AS 'Second Test',ABS(MAX(score)-MAX(score2)) AS 'Range',LOG((MAX(score)+MIN(score2))/2) AS 'Avg Log' FROM studentAA,test,score WHERE studentAA.student_id=test.student_id AND studentAA.student_id=score.student_id AND score.student_id=test.student_id GROUP BY student_id ORDER BY studentAA.student_id;
++----------------------------------+------------+------------+-------------+-------+--------------------+
+| CONCAT(first_name," ",last_name) | student_id | First Test | Second Test | Range | Avg Log            |
++----------------------------------+------------+------------+-------------+-------+--------------------+
+| std1 sr1                         |       4050 |         99 |          95 |     4 |  4.574710978503383 |
+| std3 sr3                         |       4052 |         90 |          89 |     1 | 4.4942386252808095 |
+| std4 sr4                         |       4057 |         85 |          99 |    14 | 4.5217885770490405 |
+| std5 sr5                         |       4071 |         95 |          91 |     4 |  4.532599493153256 |
+| std6 sr6                         |       4072 |         97 |          95 |     2 |  4.564348191467836 |
+| std7 sr7                         |       4073 |         94 |         100 |     6 |  4.574710978503383 |
+| std8 sr8                         |       4074 |         97 |          94 |     3 | 4.5591262474866845 |
+| std9 sr9                         |       4077 |        100 |         100 |     0 |  4.605170185988092 |
+| std99 sr99                       |       4078 |         90 |          99 |     9 |  4.548599834499697 |
++----------------------------------+------------+------------+-------------+-------+--------------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT(first_name," ",last_name),studentAA.student_id AS 'Student Id',score.score AS 'First Test', score.score2 AS 'Second Test',ABS(MAX(score)-MAX(score2)) AS 'Range',LOG((MAX(score)+MIN(score2))/2) AS 'Avg Log' FROM studentAA,test,score WHERE studentAA.student_id=test.student_id AND studentAA.student_id=score.student_id AND score.student_id=test.student_id GROUP BY student_id ORDER BY studentAA.student_id;
+ERROR 1052 (23000): Column 'student_id' in group statement is ambiguous
+mysql> SELECT CONCAT(first_name," ",last_name),student_id AS 'Student Id',score.score AS 'First Test', score.score2 AS 'Second Test',ABS(MAX(score)-MAX(score2)) AS 'Range',LOG((MAX(score)+MIN(score2))/2) AS 'Avg Log' FROM studentAA,test,score WHERE studentAA.student_id=test.student_id AND studentAA.student_id=score.student_id AND score.student_id=test.student_id GROUP BY student_id ORDER BY studentAA.student_id;
+ERROR 1052 (23000): Column 'student_id' in field list is ambiguous
+mysql> SELECT CONCAT(first_name," ",last_name),test.student_id AS 'Student Id',score.score AS 'First Test', score.score2 AS 'Second Test',ABS(MAX(score)-MAX(score2)) AS 'Range',LOG((MAX(score)+MIN(score2))/2) AS 'Avg Log' FROM studentAA,test,score WHERE studentAA.student_id=test.student_id AND studentAA.student_id=score.student_id AND score.student_id=test.student_id GROUP BY student_id ORDER BY studentAA.student_id;
+ERROR 1052 (23000): Column 'student_id' in group statement is ambiguous
+mysql> SELECT CONCAT(first_name," ",last_name),test.student_id AS 'Student Id',score.score AS 'First Test', score.score2 AS 'Second Test',ABS(MAX(score)-MAX(score2)) AS 'Range',LOG((MAX(score)+MIN(score2))/2) AS 'Avg Log' FROM studentAA,test,score WHERE studentAA.student_id=test.student_id AND studentAA.student_id=score.student_id AND score.student_id=test.student_id GROUP BY test.student_id ORDER BY studentAA.student_id;
++----------------------------------+------------+------------+-------------+-------+--------------------+
+| CONCAT(first_name," ",last_name) | Student Id | First Test | Second Test | Range | Avg Log            |
++----------------------------------+------------+------------+-------------+-------+--------------------+
+| std1 sr1                         |       4050 |         99 |          95 |     4 |  4.574710978503383 |
+| std3 sr3                         |       4052 |         90 |          89 |     1 | 4.4942386252808095 |
+| std4 sr4                         |       4057 |         85 |          99 |    14 | 4.5217885770490405 |
+| std5 sr5                         |       4071 |         95 |          91 |     4 |  4.532599493153256 |
+| std6 sr6                         |       4072 |         97 |          95 |     2 |  4.564348191467836 |
+| std7 sr7                         |       4073 |         94 |         100 |     6 |  4.574710978503383 |
+| std8 sr8                         |       4074 |         97 |          94 |     3 | 4.5591262474866845 |
+| std9 sr9                         |       4077 |        100 |         100 |     0 |  4.605170185988092 |
+| std99 sr99                       |       4078 |         90 |          99 |     9 |  4.548599834499697 |
++----------------------------------+------------+------------+-------------+-------+--------------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT(first_name," ",last_name) AS 'Name',test.student_id AS 'Student Id',score.score AS 'First Test', score.score2 AS 'Second Test',ABS(MAX(score)-MAX(score2)) AS 'Range',LOG((MAX(score)+MIN(score2))/2) AS 'Avg Log' FROM studentAA,test,score WHERE studentAA.student_id=test.student_id AND studentAA.student_id=score.student_id AND score.student_id=test.student_id GROUP BY test.student_id ORDER BY studentAA.student_id;
++------------+------------+------------+-------------+-------+--------------------+
+| Name       | Student Id | First Test | Second Test | Range | Avg Log            |
++------------+------------+------------+-------------+-------+--------------------+
+| std1 sr1   |       4050 |         99 |          95 |     4 |  4.574710978503383 |
+| std3 sr3   |       4052 |         90 |          89 |     1 | 4.4942386252808095 |
+| std4 sr4   |       4057 |         85 |          99 |    14 | 4.5217885770490405 |
+| std5 sr5   |       4071 |         95 |          91 |     4 |  4.532599493153256 |
+| std6 sr6   |       4072 |         97 |          95 |     2 |  4.564348191467836 |
+| std7 sr7   |       4073 |         94 |         100 |     6 |  4.574710978503383 |
+| std8 sr8   |       4074 |         97 |          94 |     3 | 4.5591262474866845 |
+| std9 sr9   |       4077 |        100 |         100 |     0 |  4.605170185988092 |
+| std99 sr99 |       4078 |         90 |          99 |     9 |  4.548599834499697 |
++------------+------------+------------+-------------+-------+--------------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT * FROM absence;
++------------+------------+------------+---------+
+| student_id | test_taken | date       | test_id |
++------------+------------+------------+---------+
+|       4072 | F          | 2017-10-18 | F       |
++------------+------------+------------+---------+
+1 row in set (0.00 sec)
+
+mysql> DESCTIBE absence;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'DESCTIBE absence' at line 1
+mysql> DEScribe absence;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| student_id | int(10) unsigned | NO   | PRI | NULL    |       |
+| test_taken | char(1)          | NO   |     | F       |       |
+| date       | date             | NO   | PRI | NULL    |       |
+| test_id    | char(1)          | NO   |     | F       |       |
++------------+------------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT absence VALUE
+    -> (4050,F,NOW(),456),(4074,F,NOW(),567);
+ERROR 1054 (42S22): Unknown column 'F' in 'field list'
+mysql> INSERT absence VALUE
+    -> (4050,F,NOW(),P),(4074,F,NOW(),P);
+ERROR 1054 (42S22): Unknown column 'F' in 'field list'
+mysql> INSERT absence VALUE
+    -> (4050,F,NOW(),F),(4074,F,NOW(),F);
+ERROR 1054 (42S22): Unknown column 'F' in 'field list'
+mysql> (4050,'F',NOW(),'F'),(4074,'F',NOW(),'F');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '4050,'F',NOW(),'F'),(4074,'F',NOW(),'F')' at line 1
+mysql> INSERT absence VALUE
+    -> (4050,'F',NOW(),'F'),(4074,'F',NOW(),'F');
+Query OK, 2 rows affected, 2 warnings (0.15 sec)
+Records: 2  Duplicates: 0  Warnings: 2
+
+mysql> SELECT CONCAT(first_name," ",last_name) AS 'Name',studentAA.student_id AS 'Student Id',COUNT(absence.date) AS 'Absence/Student'FROM studentAA,absence WHERE student.student_id AND absence.student_id GROUP BY studentAA.student_id ORDER BY studentAA.student_id;
+ERROR 1054 (42S22): Unknown column 'student.student_id' in 'where clause'
+mysql> SELECT CONCAT(first_name," ",last_name) AS 'Name',studentAA.student_id AS 'Student Id',COUNT(absence.date) AS 'Absence/Student'FROM studentAA,absence WHERE studentAA.student_id AND absence.student_id GROUP BY studentAA.student_id ORDER BY studentAA.student_id;
++------------+------------+-----------------+
+| Name       | Student Id | Absence/Student |
++------------+------------+-----------------+
+| std1 sr1   |       4050 |               3 |
+| std3 sr3   |       4052 |               3 |
+| std4 sr4   |       4057 |               3 |
+| std5 sr5   |       4071 |               3 |
+| std6 sr6   |       4072 |               3 |
+| std7 sr7   |       4073 |               3 |
+| std8 sr8   |       4074 |               3 |
+| std9 sr9   |       4077 |               3 |
+| std99 sr99 |       4078 |               3 |
++------------+------------+-----------------+
+9 rows in set (0.07 sec)
+
+mysql> SELECT CONCAT(first_name," ",last_name) AS 'Name',studentAA.student_id AS 'Student Id',COUNT(absence.date) AS 'Absence/Student'FROM studentAA,absence WHERE studentAA.student_id AND absence.student_id GROUP BY absence.student_id ORDER BY absence.student_id;
++----------+------------+-----------------+
+| Name     | Student Id | Absence/Student |
++----------+------------+-----------------+
+| std1 sr1 |       4050 |               9 |
+| std1 sr1 |       4050 |               9 |
+| std1 sr1 |       4050 |               9 |
++----------+------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * absence;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'absence' at line 1
+mysql> SELECT * FROM absence;
++------------+------------+------------+---------+
+| student_id | test_taken | date       | test_id |
++------------+------------+------------+---------+
+|       4050 | F          | 2017-10-19 | F       |
+|       4072 | F          | 2017-10-18 | F       |
+|       4074 | F          | 2017-10-19 | F       |
++------------+------------+------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT(first_name," ",last_name) AS 'Name',studentAA.student_id AS 'Student Id',COUNT(absence.date) AS 'Absence/Student'FROM studentAA,absence WHERE studentAA.student_id=absence.student_id GROUP BY studentAA.student_id ORDER BY studentAA.student_id;
++----------+------------+-----------------+
+| Name     | Student Id | Absence/Student |
++----------+------------+-----------------+
+| std1 sr1 |       4050 |               1 |
+| std6 sr6 |       4072 |               1 |
+| std8 sr8 |       4074 |               1 |
++----------+------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql>

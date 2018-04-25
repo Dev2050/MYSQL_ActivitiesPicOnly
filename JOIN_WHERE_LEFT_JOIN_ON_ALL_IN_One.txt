@@ -1,0 +1,207 @@
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 4
+Server version: 5.5.5-10.1.26-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SELECT studentAA.student_id AS 'Student Id',CONCAT(first_name," ",last_name) AS 'Name',score.score AS 'Test One',score.score2 AS 'Test Two' FROM studentAA INNER JOIN score ON score.student_id=studentAA.student_id WHERE score.score>=89 GROUP BY studentAA.student_id ORDER BY score.score LIMIT 1,4;
+ERROR 1046 (3D000): No database selected
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| students           |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> USE student;
+Database changed
+mysql> SELECT DATABASE();
++------------+
+| DATABASE() |
++------------+
+| student    |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_student |
++-------------------+
+| absence           |
+| class             |
+| score             |
+| studentaa         |
+| test              |
++-------------------+
+5 rows in set (0.00 sec)
+
+mysql> SLELECT studentAA.student_id AS 'Student Id',CONCAT(first_name, " ",last_name) AS 'Name',score.score AS 'Test One',score.score2 AS 'Test Two',score.date AS 'Date' FROM studentAA INNER JOIN score ON score.student_id=studentAA.student.id WHERE score.score>=89 GROUP BY studentAA.student_id ORDER BY studentAA.student_id LIMIT 1,4;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SLELECT studentAA.student_id AS 'Student Id',CONCAT(first_name, " ",last_name) A' at line 1
+mysql> SELECT studentAA.student_id AS 'Student Id',CONCAT(first_name, " ",last_name) AS 'Name',score.score AS 'Test One',score.score2 AS 'Test Two',score.date AS 'Date' FROM studentAA INNER JOIN score ON score.student_id=studentAA.student.id WHERE score.score>=89 GROUP BY studentAA.student_id ORDER BY studentAA.student_id LIMIT 1,4;
+ERROR 1054 (42S22): Unknown column 'score.date' in 'field list'
+mysql> DESCTIBE score;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'DESCTIBE score' at line 1
+mysql> DESCRIBE score;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| student_id | int(10) unsigned | NO   | PRI | NULL    |       |
+| event_id   | int(10) unsigned | NO   | PRI | NULL    |       |
+| score      | int(11)          | NO   |     | NULL    |       |
+| score2     | int(11)          | NO   |     | NULL    |       |
++------------+------------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> ALTER TABLE score
+    -> ADD COLUMN date DATE NOT NULL AFTER score2;
+Query OK, 0 rows affected (0.67 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> UPDATE score
+    -> SET date=NOW()
+    -> WHERE student_id=4050,4052,4053,4071,4072,4073,4074,4077,4078;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '4052,4053,4071,4072,4073,4074,4077,4078' at line 3
+mysql> UPDATE score
+    -> SET date=NOW()
+    -> WHERE student_id=[^C50,4052,4053,4071,4072,4073,4074,4077,4078];
+mysql> SELECT * FROM score;
++------------+----------+-------+--------+------------+
+| student_id | event_id | score | score2 | date       |
++------------+----------+-------+--------+------------+
+|       4050 |    40501 |    99 |     95 | 0000-00-00 |
+|       4052 |    40521 |    90 |     89 | 0000-00-00 |
+|       4057 |    40571 |    85 |     99 | 0000-00-00 |
+|       4071 |    40711 |    95 |     91 | 0000-00-00 |
+|       4072 |    40722 |    97 |     95 | 0000-00-00 |
+|       4073 |    40744 |    94 |    100 | 0000-00-00 |
+|       4074 |    40773 |    97 |     94 | 0000-00-00 |
+|       4077 |    40777 |   100 |    100 | 0000-00-00 |
+|       4078 |    40778 |    90 |     99 | 0000-00-00 |
++------------+----------+-------+--------+------------+
+9 rows in set (0.01 sec)
+
+mysql> UPDATE score
+    -> SET date=NOW()
+    -> WHERE student_id=4050,4052,4057,4071,4072,4073,4074,4077,4078;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '4052,4057,4071,4072,4073,4074,4077,4078' at line 3
+mysql> UPDATE score
+    -> SET date=NOW()
+    -> WHERE student_id=4050 AND 4052 AND 4057 AND 4071 AND 4072 AND 4073 AND 4074 AND 4077 AND 4078;
+Query OK, 1 row affected, 1 warning (0.13 sec)
+Rows matched: 1  Changed: 1  Warnings: 1
+
+mysql> SELECT * FROM score;
++------------+----------+-------+--------+------------+
+| student_id | event_id | score | score2 | date       |
++------------+----------+-------+--------+------------+
+|       4050 |    40501 |    99 |     95 | 2017-10-19 |
+|       4052 |    40521 |    90 |     89 | 0000-00-00 |
+|       4057 |    40571 |    85 |     99 | 0000-00-00 |
+|       4071 |    40711 |    95 |     91 | 0000-00-00 |
+|       4072 |    40722 |    97 |     95 | 0000-00-00 |
+|       4073 |    40744 |    94 |    100 | 0000-00-00 |
+|       4074 |    40773 |    97 |     94 | 0000-00-00 |
+|       4077 |    40777 |   100 |    100 | 0000-00-00 |
+|       4078 |    40778 |    90 |     99 | 0000-00-00 |
++------------+----------+-------+--------+------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT studentAA.student_id AS 'Student Id',CONCAT(last_name," ",first_name) AS 'Name',score.score AS 'Test One',score.score2 AS 'Test Two',score.date AS 'Date' FROM studentAA INNER JOIN score ON studentAA.student_id=score.student_id WHERE score.score>=89 AND score.score2 >=90 GROUP BY studentAA.student_Id ORDER BY studentAA.student_id LIMIT 1,4;
++------------+----------+----------+----------+------------+
+| Student Id | Name     | Test One | Test Two | Date       |
++------------+----------+----------+----------+------------+
+|       4071 | sr5 std5 |       95 |       91 | 0000-00-00 |
+|       4072 | sr6 std6 |       97 |       95 | 0000-00-00 |
+|       4073 | sr7 std7 |       94 |      100 | 0000-00-00 |
+|       4074 | sr8 std8 |       97 |       94 | 0000-00-00 |
++------------+----------+----------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT studentAA.student_id AS 'Student Id',CONCAT(last_name," ",first_name) AS 'Name',score.score AS 'Test One',score.score2 AS 'Test Two',score.date AS 'Date' FROM studentAA INNER JOIN score ON studentAA.student_id=score.student_id WHERE score.score>=89 AND score.score2 >=90 GROUP BY studentAA.student_Id ORDER BY studentAA.student_id;
++------------+------------+----------+----------+------------+
+| Student Id | Name       | Test One | Test Two | Date       |
++------------+------------+----------+----------+------------+
+|       4050 | sr1 std1   |       99 |       95 | 2017-10-19 |
+|       4071 | sr5 std5   |       95 |       91 | 0000-00-00 |
+|       4072 | sr6 std6   |       97 |       95 | 0000-00-00 |
+|       4073 | sr7 std7   |       94 |      100 | 0000-00-00 |
+|       4074 | sr8 std8   |       97 |       94 | 0000-00-00 |
+|       4077 | sr9 std9   |      100 |      100 | 0000-00-00 |
+|       4078 | sr99 std99 |       90 |       99 | 0000-00-00 |
++------------+------------+----------+----------+------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT studentAA.student_id AS 'Student Id',CONCAT(first_name, " ",last_name) AS 'Name',score.score AS 'Test One', score.score2 AS 'Test Two' FROM studentAA LEFT JOIN score ON studentAA.student_id=score.student_id WHERE score.score>=89 AND score.score2>=90 GROUP BY studentAA.student_id ORDER BY studentAA.student_id;
++------------+------------+----------+----------+
+| Student Id | Name       | Test One | Test Two |
++------------+------------+----------+----------+
+|       4050 | std1 sr1   |       99 |       95 |
+|       4071 | std5 sr5   |       95 |       91 |
+|       4072 | std6 sr6   |       97 |       95 |
+|       4073 | std7 sr7   |       94 |      100 |
+|       4074 | std8 sr8   |       97 |       94 |
+|       4077 | std9 sr9   |      100 |      100 |
+|       4078 | std99 sr99 |       90 |       99 |
++------------+------------+----------+----------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT studentAA.student_id AS 'Student Id',CONCAT(first_name, " ",last_name) AS 'Name',score.score AS 'Test One', score.score2 AS 'Test Two', score.date AS 'Date' FROM studentAA LEFT JOIN score ON studentAA.student_id=score.student_id WHERE score.score>=89 AND score.score2>=90 GROUP BY studentAA.student_id ORDER BY studentAA.student_id;
++------------+------------+----------+----------+------------+
+| Student Id | Name       | Test One | Test Two | Date       |
++------------+------------+----------+----------+------------+
+|       4050 | std1 sr1   |       99 |       95 | 2017-10-19 |
+|       4071 | std5 sr5   |       95 |       91 | 0000-00-00 |
+|       4072 | std6 sr6   |       97 |       95 | 0000-00-00 |
+|       4073 | std7 sr7   |       94 |      100 | 0000-00-00 |
+|       4074 | std8 sr8   |       97 |       94 | 0000-00-00 |
+|       4077 | std9 sr9   |      100 |      100 | 0000-00-00 |
+|       4078 | std99 sr99 |       90 |       99 | 0000-00-00 |
++------------+------------+----------+----------+------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT studentAA.student_id AS 'Student Id',CONCAT(first_name, " ",last_name) AS 'Name', LOG((MAX(score)+MAX(score2))/2) AS 'Log Avg', score.score As 'Test One', score.score2 AS 'Test Two' FROM studentAA,score ON studentAA.student_id=score.stduent_id WHERE score.student_id!=4050 GROUP BY studentAA.student_id ORDER BY studentAA.student_id LIMIT 1,6;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ON studentAA.student_id=score.stduent_id WHERE score.student_id!=4050 GROUP BY s' at line 1
+mysql> SELECT studentAA.student_id AS 'Student Id',CONCAT(first_name, " ",last_name) AS 'Name', LOG((MAX(score)+MAX(score2))/2) AS 'Log Avg', score.score As 'Test One', score.score2 AS 'Test Two' FROM studentAA,score ON studentAA.student_id=score.student_id WHERE score.student_id!=4050 GROUP BY studentAA.student_id ORDER BY studentAA.student_id LIMIT 1,6;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ON studentAA.student_id=score.student_id WHERE score.student_id!=4050 GROUP BY s' at line 1
+mysql> SELECT studentAA.student_id AS 'Student Id',CONCAT(first_name, " ",last_name) AS 'Name', LOG((MAX(score)+MAX(score2))/2) AS 'Log Avg', score.score As 'Test One', score.score2 AS 'Test Two' FROM studentAA,score ON studentAA.student_id=score.student_id GROUP BY studentAA.student_id ORDER BY studentAA.student_id LIMIT 1,6;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ON studentAA.student_id=score.student_id GROUP BY studentAA.student_id ORDER BY ' at line 1
+mysql> SELECT studentAA.student_id AS 'Student Id',CONCAT(first_name, " ",last_name) AS 'Name', LOG((MAX(score)+MAX(score2))/2) AS 'Log Avg', score.score As 'Test One', score.score2 AS 'Test Two' FROM studentAA,score WHERE studentAA.student_id=score.student_id GROUP BY studentAA.student_id ORDER BY studentAA.student_id LIMIT 1,6;
++------------+----------+--------------------+----------+----------+
+| Student Id | Name     | Log Avg            | Test One | Test Two |
++------------+----------+--------------------+----------+----------+
+|       4052 | std3 sr3 | 4.4942386252808095 |       90 |       89 |
+|       4057 | std4 sr4 | 4.5217885770490405 |       85 |       99 |
+|       4071 | std5 sr5 |  4.532599493153256 |       95 |       91 |
+|       4072 | std6 sr6 |  4.564348191467836 |       97 |       95 |
+|       4073 | std7 sr7 |  4.574710978503383 |       94 |      100 |
+|       4074 | std8 sr8 | 4.5591262474866845 |       97 |       94 |
++------------+----------+--------------------+----------+----------+
+6 rows in set (0.02 sec)
+
+mysql> SELECT studentAA.student_id AS 'Student Id',CONCAT(first_name, " ",last_name) AS 'Name',score.score As 'Test One', score.score2 AS 'Test Two', LOG((MAX(score)+MAX(score2))/2) AS 'Log Avg' FROM studentAA,score WHERE studentAA.student_id=score.student_id GROUP BY studentAA.student_id ORDER BY studentAA.student_id LIMIT 1,6;
++------------+----------+----------+----------+--------------------+
+| Student Id | Name     | Test One | Test Two | Log Avg            |
++------------+----------+----------+----------+--------------------+
+|       4052 | std3 sr3 |       90 |       89 | 4.4942386252808095 |
+|       4057 | std4 sr4 |       85 |       99 | 4.5217885770490405 |
+|       4071 | std5 sr5 |       95 |       91 |  4.532599493153256 |
+|       4072 | std6 sr6 |       97 |       95 |  4.564348191467836 |
+|       4073 | std7 sr7 |       94 |      100 |  4.574710978503383 |
+|       4074 | std8 sr8 |       97 |       94 | 4.5591262474866845 |
++------------+----------+----------+----------+--------------------+
+6 rows in set (0.00 sec)
+
+mysql>
